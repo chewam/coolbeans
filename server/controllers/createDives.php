@@ -26,7 +26,7 @@ if (($date = $dive->dive_date) === null)
     $date = array('date' => null);
 
 $dive = array(
-    'id' => $dive->id,
+    'id' => intval($dive->id),
     'dive_date' => $date,
     'location' => $dive->location,
     'site' => $dive->site,

@@ -13,8 +13,9 @@ Ext.application({
             layout: 'border',
             items: [{
                 region: 'west',
-                width: 250,
+                width: 300,
                 split: true,
+                collapsible: true,
                 xtype: 'divelist'
             }, {
                 region: 'center',
@@ -23,6 +24,12 @@ Ext.application({
                 items:[{
                     title: 'Log',
                     xtype: 'diveedit'
+                }, {
+                    title: 'Map'
+                }, {
+                    title: 'Access Plan'
+                }, {
+                    title: 'Prepare'
                 }]
             }]
         });

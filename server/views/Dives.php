@@ -7,9 +7,14 @@ include('../config.php');
 $R =& $_REQUEST;
 
 $order = 'dive_date desc';
+
 if (isset($R['sort'])) {
+    $order = array();
     $R['sort'] = json_decode($R['sort'], true);
-    $order = $R['sort'][0]['property'] .' '. $R['sort'][0]['direction'];
+    foreach ($R['sort'] as $col) {
+        $order[] = $col['property'] .' '. $col['direction'];
+    }
+    $order = implode(',', $order);
 }
 
 $options = array(

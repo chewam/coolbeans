@@ -10,6 +10,7 @@ Ext.define('CB.view.dive.List' ,{
 
     initComponent: function() {
         this.columns = [
+            Ext.create('Ext.grid.RowNumberer'),
             {header: 'Date',  dataIndex: 'dive_date', xtype: 'datecolumn', format: 'd/m/Y', resizable: false, width: 70},
             {header: 'Dive site', dataIndex: 'site', flex: 1},
             {header: 'Time',  dataIndex: 'total_time', resizable: false, width: 40, align: 'center'},

@@ -90,7 +90,7 @@ Ext.define('CB.view.dive.Edit', {
                 name : 'dive_date',
                 margin: '0 0 3 0',
                 // anchor: '0',
-                maxWidth: 200,
+                maxWidth: 150,
                 fieldLabel: 'Date'
             }, {
                 xtype: 'combobox',
@@ -98,7 +98,7 @@ Ext.define('CB.view.dive.Edit', {
                 fieldLabel: 'Objective',
                 displayField: 'name',
                 valueField: 'id',
-                maxWidth: 200,
+                maxWidth: 250,
                 labelWidth: 55,
                 // hideTrigger: true,
                 // typeAhead: true,
@@ -138,19 +138,21 @@ Ext.define('CB.view.dive.Edit', {
                     xtype: 'timefield',
                     margin: '0 0 3 0',
                     name : 'time_in',
-                    format: 'H:i:s',
-                    submitFormat: 'H:i:s',
+                    format: 'H:i',
+                    altFormats: 'H:i:s',
+                    submitFormat: 'H:i',
                     increment: 30,
-                    maxWidth: 200,
+                    maxWidth: 120,
                     fieldLabel: 'Time in'
                 }, {
                     xtype: 'timefield',
                     name : 'time_out',
-                    format: 'H:i:s',
-                    submitFormat: 'H:i:s',
+                    format: 'H:i',
+                    altFormats: 'H:i:s',
+                    submitFormat: 'H:i',
                     increment: 30,
                     labelWidth: 55,
-                    maxWidth: 200,
+                    maxWidth: 120,
                     fieldLabel: 'Time out'
                 }, {
                     xtype: 'displayfield',
@@ -169,10 +171,10 @@ Ext.define('CB.view.dive.Edit', {
                     margin: '0 0 3 10'
                 },
                 items: [{
-                    xtype: 'textfield',
+                    xtype: 'numberfield',
                     name : 'max_depth',
                     margin: '0 0 3 0',
-                    maxWidth: 200,
+                    maxWidth: 120,
                     fieldLabel: 'Depth'
                 }, {
                     xtype: 'displayfield',

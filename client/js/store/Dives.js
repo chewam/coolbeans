@@ -3,7 +3,7 @@ Ext.define('CB.store.Dives', {
     model: 'CB.model.Dive',
     autoLoad: true,
     remoteSort: true,
-    sorters: [{property: 'dive_date', direction: 'DESC'}],
+    sorters: [{property: 'dive_date', direction: 'DESC'}, {property: 'time_in', direction: 'DESC'}],
     proxy: {
         type: 'ajax',
         api: {
