@@ -9,4 +9,8 @@ ActiveRecord\Config::initialize(function($cfg) {
     ));
 });
 
+$config = array(
+    'googlekey' => ''
+);
+
 ?>

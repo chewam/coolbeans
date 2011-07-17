@@ -45,7 +45,7 @@ Ext.define('CB.controller.Dives', {
         });
         
         this.getDivesStore().on('load', function(store) {
-            if (store.getCount()) {
+            if (this.listView && store.getCount()) {
                 this.listView.getView().select(0);
             }
         }, this);
