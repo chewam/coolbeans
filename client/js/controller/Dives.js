@@ -77,29 +77,22 @@ Ext.define('CB.controller.Dives', {
         if (form.isValid()) {
             var record = this.editView.getRecord(),
                 values = this.editView.getValues();
-            console.log("updateDive", record, values);
             record.set(values);
             this.getDivesStore().sync();
-            // record.commit();
         } else {
             console.log("FORM INVALID", form);
         }
     },
 
     editDive: function(grid, records) {
-        console.log("editEdive", this, arguments);
         if (records.length) {
             var record = records[0];
             this.editView.enable();
-            console.log("SET CENTER", record.get("country").name + ' ' + record.get("location"));
-            
             // this.mapView.setCenter(record.get("location") + ', ' + record.get("country").name);
-            
             this.editView.down('combobox').store.add(record.get('country'));
             this.editView.loadRecord(record);
             this.activeRecordIndex = this.getDivesStore().indexOf(record);
         } else if (this.activeRecordIndex !== false) {
-            console.log("select", this, arguments);
             this.editView.down('combobox').store.removeAll();
             this.listView.getView().select(this.activeRecordIndex);
         }
@@ -112,7 +105,6 @@ Ext.define('CB.controller.Dives', {
                 function (response) {
                     if (response === 'yes') {
                         var record = this.editView.getRecord();
-                        console.log("deleteDive", record);
                         this.getDivesStore().remove(record);
                         this.getDivesStore().sync();
                     }

@@ -100,13 +100,7 @@ Ext.define('CB.view.dive.Edit', {
                 valueField: 'id',
                 maxWidth: 250,
                 labelWidth: 55,
-                // hideTrigger: true,
-                // typeAhead: true,
                 queryMode: 'local',
-                // listConfig: {
-                //     loadingText: 'Searching...',
-                //     emptyText: 'No matching countries found.'
-                // },
                 store: new Ext.data.Store({
                     autoLoad: true,
                     model: 'Objective',

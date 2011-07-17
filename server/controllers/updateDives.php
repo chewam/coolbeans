@@ -26,8 +26,6 @@ $dive_date = $dive_date[0];
 $dive->time_in = $dive_date .' '. $R['time_in'];
 $dive->time_out = $dive_date .' '. $R['time_out'];
 
-// var_dump($dive->dive_date);
-
 $prevs = Dive::find('all', array(
     'offset' => 0,
     'limit' => 1,
@@ -58,40 +56,7 @@ foreach ($pg_ends as $pg_end) {
     $dive->pg_end = $pg_end->pg;
 }
 
-
 $dive->save();
-
-
-
-// if (($dive_date = $dive->dive_date) === null)
-//     $dive_date = array('date' => null);
-// 
-// if (($time_in = $dive->time_in) === null)
-//     $time_in = array('date' => null);
-// 
-// if (($time_out = $dive->time_out) === null)
-//     $time_out = array('date' => null);
-// 
-// $dive = array(
-//     'id' => $dive->id,
-//     'dive_date' => $dive_date,
-//     'location' => $dive->location,
-//     'site' => $dive->site,
-//     'max_depth' => $dive->max_depth,
-//     'total_time' => $dive->total_time,
-//     'time_in' => $time_in,
-//     'time_out' => $time_out,
-//     'pg_start' => $dive->pg_start,
-//     'pg_end' => $dive->pg_end,
-//     'country_id' => $dive->country_id,
-//     'objective_id' => $dive->objective_id,
-//     'country' => array(
-//         'id' => $dive->country_id,
-//         'name' => $dive->country_name
-//     )
-// );
-
-// print '{"success":true, data:['.json_encode($dive).']}';
 
 $data = $dive->to_json(array(
     'include' => array('country')

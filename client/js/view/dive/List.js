@@ -23,12 +23,8 @@ Ext.define('CB.view.dive.List' ,{
                 iconCls: 'icon-add',
                 action: 'add',
                 tooltip: 'Add a dive'
-                // text: 'Add',
-                // scope: this,
-                // handler: this.onAddClick
             }, {
                 iconCls: 'icon-delete',
-                // text: 'Delete',
                 action: 'delete',
                 tooltip: 'Delete selected dive'
             }]
@@ -36,16 +32,6 @@ Ext.define('CB.view.dive.List' ,{
 
         this.callParent(arguments);
 
-        // this.getView().on('selectionchange', )
-    },
-
-    onAddClick: function() {
-        var rec = new CB.model.Dive({
-            date: '',
-            location: ''
-        }), edit = this.editing;
-        this.store.insert(0, rec);
-        this.getView().select(0);
     }
 
 });
