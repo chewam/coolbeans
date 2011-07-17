@@ -9,7 +9,8 @@ Ext.define('CB.store.Dives', {
         api: {
             read: 'server/views/Dives.php',
             create: 'server/controllers/createDives.php',
-            update: 'server/controllers/updateDives.php'
+            update: 'server/controllers/updateDives.php',
+            destroy: 'server/controllers/destroyDives.php',
         },
         reader: {
             type: 'json',

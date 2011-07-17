@@ -6,7 +6,8 @@ Ext.define('CB.controller.Dives', {
 
     views: [
         'dive.List',
-        'dive.Edit'
+        'dive.Edit',
+        'dive.Map'
     ],
 
     stores: [
@@ -26,30 +27,63 @@ Ext.define('CB.controller.Dives', {
                 render: this.onListRender,
                 selectionchange: this.editDive
             },
-            'diveedit button[action=save]': {
+            'divelist button[action=add]': {
+                click: this.addDive
+            },
+            'divelist button[action=delete]': {
+                click: this.deleteDive
+            },
+            'diveedit toolbar button[action=save]': {
                 click: this.updateDive
             },
             'diveedit': {
                 render: this.onEditRender 
+            },
+            'divemap': {
+                render: this.onMapRender 
             }
         });
+        
+        this.getDivesStore().on('load', function(store) {
+            if (store.getCount()) {
+                this.listView.getView().select(0);
+            }
+        }, this);
     },
 
-    onListRender: function(form) {
-        this.listView = form;
+    onMapRender: function(map) {
+        this.mapView = map;
+    },
+
+    onListRender: function(grid) {
+        this.listView = grid;
     },
 
     onEditRender: function(form) {
         this.editView = form;
     },
 
+    addDive: function() {
+        var rec = new CB.model.Dive({
+            dive_date: '',
+            country_id: ''
+        });
+        this.getDivesStore().insert(0, rec);
+        this.listView.getView().select(0);
+    },
+
     updateDive: function(button) {
-        var record = this.editView.getRecord(),
-            values = this.editView.getValues();
-        console.log("updateDive", record, values);
-        record.set(values);
-        this.getDivesStore().sync();
-        // record.commit();
+        var form = this.editView.getForm();
+        if (form.isValid()) {
+            var record = this.editView.getRecord(),
+                values = this.editView.getValues();
+            console.log("updateDive", record, values);
+            record.set(values);
+            this.getDivesStore().sync();
+            // record.commit();
+        } else {
+            console.log("FORM INVALID", form);
+        }
     },
 
     editDive: function(grid, records) {
@@ -57,7 +91,10 @@ Ext.define('CB.controller.Dives', {
         if (records.length) {
             var record = records[0];
             this.editView.enable();
-            console.log("YOP", this.editView.down('combobox'), record.get('country'));
+            console.log("SET CENTER", record.get("country").name + ' ' + record.get("location"));
+            
+            // this.mapView.setCenter(record.get("location") + ', ' + record.get("country").name);
+            
             this.editView.down('combobox').store.add(record.get('country'));
             this.editView.loadRecord(record);
             this.activeRecordIndex = this.getDivesStore().indexOf(record);
@@ -65,6 +102,24 @@ Ext.define('CB.controller.Dives', {
             console.log("select", this, arguments);
             this.editView.down('combobox').store.removeAll();
             this.listView.getView().select(this.activeRecordIndex);
+        }
+    },
+
+    deleteDive: function() {
+        var form = this.editView.getForm();
+        if (form.isValid()) {
+            Ext.Msg.confirm('Delete Dive', 'Are you sure you want to delete this dive?',
+                function (response) {
+                    if (response === 'yes') {
+                        var record = this.editView.getRecord();
+                        console.log("deleteDive", record);
+                        this.getDivesStore().remove(record);
+                        this.getDivesStore().sync();
+                    }
+                }
+            , this);
+        } else {
+            console.log("FORM INVALID", form);
         }
     }
 

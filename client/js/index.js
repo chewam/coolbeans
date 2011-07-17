@@ -1,3 +1,5 @@
+Ext.Loader.setPath('Ext.ux', '../../libs/ext-4.0.2a/examples/ux');
+
 Ext.application({
 
     name: 'CB',
@@ -25,11 +27,13 @@ Ext.application({
                     title: 'Log',
                     xtype: 'diveedit'
                 }, {
-                    title: 'Map'
+                    xtype: 'divemap'
                 }, {
-                    title: 'Access Plan'
+                    title: 'Access Plan',
+                    disabled: true
                 }, {
-                    title: 'Prepare'
+                    title: 'Prepare',
+                    disabled: true
                 }]
             }]
         });

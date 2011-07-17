@@ -19,22 +19,24 @@ Ext.define('CB.view.dive.List' ,{
 
         this.dockedItems = [{
             xtype: 'toolbar',
-            items: [{
+            items: ['->', {
                 iconCls: 'icon-add',
-                text: 'Add',
-                scope: this,
-                handler: this.onAddClick
+                action: 'add',
+                tooltip: 'Add a dive'
+                // text: 'Add',
+                // scope: this,
+                // handler: this.onAddClick
             }, {
                 iconCls: 'icon-delete',
-                text: 'Delete',
-                disabled: true,
-                itemId: 'delete',
-                scope: this,
-                handler: this.onDeleteClick
+                // text: 'Delete',
+                action: 'delete',
+                tooltip: 'Delete selected dive'
             }]
         }];
 
         this.callParent(arguments);
+
+        // this.getView().on('selectionchange', )
     },
 
     onAddClick: function() {

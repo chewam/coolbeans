@@ -15,8 +15,6 @@ Ext.define('CB.view.dive.Edit', {
 
     bodyPadding: '20',
 
-    disabled: true,
-
     initComponent: function() {
 
         Ext.define('Country', {
@@ -41,6 +39,7 @@ Ext.define('CB.view.dive.Edit', {
             items: [{
                 xtype: 'combobox',
                 name: 'country_id',
+                allowBlank: false,
                 margin: '0 0 3 0',
                 fieldLabel: 'Country',
                 displayField: 'name',
@@ -91,6 +90,7 @@ Ext.define('CB.view.dive.Edit', {
                 margin: '0 0 3 0',
                 // anchor: '0',
                 maxWidth: 150,
+                allowBlank: false,
                 fieldLabel: 'Date'
             }, {
                 xtype: 'combobox',
@@ -139,8 +139,8 @@ Ext.define('CB.view.dive.Edit', {
                     margin: '0 0 3 0',
                     name : 'time_in',
                     format: 'H:i',
-                    altFormats: 'H:i:s',
-                    submitFormat: 'H:i',
+                    altFormats: 'c',
+                    submitFormat: 'H:i:s',
                     increment: 30,
                     maxWidth: 120,
                     fieldLabel: 'Time in'
@@ -148,8 +148,8 @@ Ext.define('CB.view.dive.Edit', {
                     xtype: 'timefield',
                     name : 'time_out',
                     format: 'H:i',
-                    altFormats: 'H:i:s',
-                    submitFormat: 'H:i',
+                    altFormats: 'c',
+                    submitFormat: 'H:i:s',
                     increment: 30,
                     labelWidth: 55,
                     maxWidth: 120,
@@ -192,17 +192,16 @@ Ext.define('CB.view.dive.Edit', {
             }]
         }];
 
-        this.buttons = [
-            {
-                text: 'Save',
-                action: 'save'
-            },
-            {
-                text: 'Cancel',
-                scope: this,
-                handler: this.close
-            }
-        ];
+        this.buttons = [{
+            text: 'Save',
+            // formBind: true,
+            // disabled: true,
+            action: 'save'
+        }, {
+            text: 'Cancel',
+            scope: this,
+            handler: this.close
+        }];
 
         this.callParent(arguments);
     }

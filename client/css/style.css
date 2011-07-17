@@ -1,0 +1,8 @@
+/**** ICONS
+*******************************************************************************/
+.icon-add {
+    background: url('../img/icons/add.png') no-repeat scroll 0 0 transparent;
+}
+.icon-delete {
+    background: url('../img/icons/delete.png') no-repeat scroll 0 0 transparent;
+}
