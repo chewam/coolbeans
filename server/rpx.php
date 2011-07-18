@@ -1,4 +1,7 @@
 <?php
+
+include('config.php');
+
 ob_start();
 /*
  Below is a very simple and verbose PHP 5 script that implements the Engage token URL processing and some popular Pro/Enterprise examples.
@@ -52,14 +55,43 @@ if(strlen($token) == 40) {//test the length of the token; it should be 40 charac
   $auth_info = json_decode($result, true);
 
   if ($auth_info['stat'] == 'ok') {
-    echo "\n auth_info:";
-    echo "\n"; var_dump($auth_info);
+    // echo "\n auth_info:";
+    // echo "\n"; var_dump($auth_info);
 
 
     /* STEP 4: Use the identifier as the unique key to sign the user into your system.
        This will depend on your website implementation, and you should add your own
        code here. The user profile is in $auth_info.
     */
+
+    header('Content-Type: text/plain');
+    echo "\n FAIS PETER :";
+    echo "\n"; var_dump($auth_info['profile']);
+
+    $openid = $auth_info['profile']['googleUserId'];
+    $name = $auth_info['profile']['name']['formatted'];
+    $email = $auth_info['profile']['email'];
+    $provider = $auth_info['profile']['providerName'];
+
+    $users = User::all(array('conditions' => array('openid = ?', $openid)));
+
+    if ($users) {
+        foreach ($users as $user) {
+            var_dump($user);
+        }
+    } else {
+        User::create(array(
+            'openid' => $openid,
+            'email' => $email,
+            'name' => $name,
+            'provider' => $provider
+        ));
+    }
+    session_start();
+    $_SESSION['openid'] = $openid;
+    $_SESSION['name'] = $name;
+    $_SESSION['email'] = $email;
+    header('Location: ../app.php');
 
     } else {
       // Gracefully handle auth_info error.  Hook this into your native error handling system.

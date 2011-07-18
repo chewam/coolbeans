@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 header('Content-Type: text/plain');
 
 include('../config.php');
@@ -7,6 +9,11 @@ include('../config.php');
 $handle = fopen('php://input','r');
 $jsonInput = fgets($handle);
 $R = json_decode($jsonInput, true);
+
+$user = User::all(array(
+    'conditions' => array('open = ?', $user->id)
+));
+$user = $user[0];
 
 $total_time = (strtotime($R['time_out']) - strtotime($R['time_in'])) / 60;
 
@@ -24,7 +31,8 @@ $dive = Dive::create(array(
     'pg_start' => $R['pg_start'],
     'pg_end' => $R['pg_end'],
     'time_in' => $dive_date .' '. $R['time_in'],
-    'time_out' => $dive_date .' '. $R['time_out']
+    'time_out' => $dive_date .' '. $R['time_out'],
+    'user_id' => $user->id
 ));
 
 $data = $dive->to_json(array(

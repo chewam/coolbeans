@@ -86,14 +86,27 @@ Ext.define('CB.controller.Dives', {
 
     editDive: function(grid, records) {
         if (records.length) {
-            var record = records[0];
-            this.editView.enable();
+            var record = records[0],
+                combo = this.editView.down('combobox[name="location"]');
+            // this.editView.enable();
             // this.mapView.setCenter(record.get("location") + ', ' + record.get("country").name);
-            this.editView.down('combobox').store.add(record.get('country'));
+            combo.store.removeAll();
+            combo.store.add({
+                address: record.get('location'),
+                lat: record.get('lat'),
+                lng: record.get('lng'),
+                country: record.get('country')
+            });
             this.editView.loadRecord(record);
+            this.editView.down('gmappanel').showLatLng({
+                lat: record.get('lat'),
+                lng: record.get('lng')
+            });
+            // console.log("COMBO", combo, combo.store, record.get('location'));
+            // combo.setValue(record.get('location'));
             this.activeRecordIndex = this.getDivesStore().indexOf(record);
         } else if (this.activeRecordIndex !== false) {
-            this.editView.down('combobox').store.removeAll();
+            this.editView.down('combobox[name="location"]').store.removeAll();
             this.listView.getView().select(this.activeRecordIndex);
         }
     },

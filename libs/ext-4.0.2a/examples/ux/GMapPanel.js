@@ -198,6 +198,22 @@ Ext.define('Ext.ux.GMapPanel', {
         }    
         
     },
+    geoCode: function(addr) {
+        console.log("GEOCODE 1", this, arguments);
+        // this.geocoder = new GClientGeocoder();
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode( {'address': addr }, function(results, status) {
+            console.log("GEOCODE 2", this, arguments);
+            // response($.map(results, function(item) {
+            //     return {
+            //         label:  item.formatted_address,
+            //         value: item.formatted_address,
+            //         latitude: item.geometry.location.lat(),
+            //         longitude: item.geometry.location.lng()
+            //     }
+            // }));
+        })
+    },
     geoCodeLookup : function(addr) {
         console.info("geoCodeLookup", this, arguments);
         this.geocoder = new GClientGeocoder();

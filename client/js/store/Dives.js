@@ -6,6 +6,9 @@ Ext.define('CB.store.Dives', {
     sorters: [{property: 'dive_date', direction: 'DESC'}, {property: 'time_in', direction: 'DESC'}],
     proxy: {
         type: 'ajax',
+        // extraParams: {
+        //     userid: CB.user.ID
+        // },
         api: {
             read: 'server/views/Dives.php',
             create: 'server/controllers/createDives.php',
