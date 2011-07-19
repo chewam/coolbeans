@@ -54,14 +54,16 @@ Ext.define('Ext.ux.GMapFieldContainer', {
                     select: function(combo, records, options) {
                         var map = this.down('gmappanel');
                         map.showLatLng(records[0].data);
-                        this.down('textfield[fieldLabel="Country"]').setValue(records[0].data.country.name);
-                        this.down('numberfield[fieldLabel="Latitude"]').setValue(records[0].data.lat);
-                        this.down('numberfield[fieldLabel="Longitude"]').setValue(records[0].data.lng);
+                        this.down('displayfield[fieldLabel="Country"]').setValue(records[0].data.country.name);
+                        this.down('displayfield[fieldLabel="Latitude"]').setValue(records[0].data.lat);
+                        this.down('displayfield[fieldLabel="Longitude"]').setValue(records[0].data.lng);
                     }
                 }
             }, {
-                xtype: 'textfield',
+                xtype: 'displayfield',
                 fieldLabel: 'Country',
+                submitValue: true,
+                labelWidth: 50,
                 margin: '0 0 0 0',
                 name: 'country'
             }, {
@@ -71,14 +73,16 @@ Ext.define('Ext.ux.GMapFieldContainer', {
                 margin: '10 0 1 0',
                 fieldLabel: 'Dive site'
             }, {
-                xtype: 'numberfield',
+                xtype: 'displayfield',
                 fieldLabel: 'Latitude',
+                submitValue: true,
                 decimalPrecision: 8,
                 margin: '0 0 1 0',
                 name: 'lat'
             }, {
-                xtype: 'numberfield',
+                xtype: 'displayfield',
                 fieldLabel: 'Longitude',
+                submitValue: true,
                 decimalPrecision: 8,
                 name: 'lng'
             }, {
@@ -135,8 +139,8 @@ Ext.define('Ext.ux.GMapFieldContainer', {
 
     onMarkerMove: function(gmap, data) {
         console.log("onMarkerMove", this, arguments);
-        this.down('numberfield[fieldLabel="Latitude"]').setValue(data.lat);
-        this.down('numberfield[fieldLabel="Longitude"]').setValue(data.lng);
+        this.down('displayfield[fieldLabel="Latitude"]').setValue(data.lat);
+        this.down('displayfield[fieldLabel="Longitude"]').setValue(data.lng);
     }
 
 });

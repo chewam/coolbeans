@@ -5,7 +5,7 @@ Ext.define('CB.view.dive.Edit', {
 
     alias : 'widget.diveedit',
 
-    requires: ['Ext.ux.GMapFieldContainer'],
+    requires: ['Ext.ux.GMapFieldContainer', 'Ext.ux.PgPanel'],
 
     title : 'Edit Dive',
 
@@ -16,7 +16,9 @@ Ext.define('CB.view.dive.Edit', {
         labelWidth: 50
     },
 
-    bodyPadding: '20',
+    autoScroll: true,
+
+    bodyPadding: '10',
 
     initComponent: function() {
 
@@ -29,6 +31,22 @@ Ext.define('CB.view.dive.Edit', {
             extend: 'Ext.data.Model',
             fields: ['id', 'name']
         });
+
+        this.dockedItems = [{
+            xtype: 'toolbar',
+            dock: 'top',
+            items: ['->', {
+                text: 'Save',
+                // formBind: true,
+                disabled: true,
+                action: 'save'
+            }, {
+                text: 'Cancel',
+                scope: this,
+                disabled: true,
+                handler: this.close
+            }]
+        }];
 
         // var map = yopmap = Ext.create('Ext.form.FieldContainer', {
         //         // The body area will contain three text fields, arranged
@@ -166,84 +184,31 @@ Ext.define('CB.view.dive.Edit', {
         //         })
         //     }]
         // }, {
-            xtype:'fieldset',
-            title: 'Level 1',
+            xtype: 'fieldcontainer',
+            layout: 'hbox',
             items:[{
                 xtype: 'fieldcontainer',
-                border: false,
-                layout: 'hbox',
-                defaults: {
-                    flex: 1,
-                    labelWidth: 50,
-                    margin: '0 0 3 10'
-                },
-                items: [{
-                    xtype: 'timefield',
-                    margin: '0 0 3 0',
-                    name : 'time_in',
-                    format: 'H:i',
-                    altFormats: 'c',
-                    submitFormat: 'H:i:s',
-                    increment: 30,
-                    maxWidth: 120,
-                    fieldLabel: 'Time in'
-                }, {
-                    xtype: 'timefield',
-                    name : 'time_out',
-                    format: 'H:i',
-                    altFormats: 'c',
-                    submitFormat: 'H:i:s',
-                    increment: 30,
-                    labelWidth: 55,
-                    maxWidth: 120,
-                    fieldLabel: 'Time out'
-                }, {
+                flex: 1,
+                // layout: 'vbox',
+                items:[{
                     xtype: 'displayfield',
                     name : 'total_time',
                     labelWidth: 30,
                     maxWidth: 200,
-                    fieldLabel: 'Time'
-                }]
-            }, {
-                xtype: 'fieldcontainer',
-                border: false,
-                layout: 'hbox',
-                defaults: {
-                    flex: 1,
-                    labelWidth: 50,
-                    margin: '0 0 3 10'
-                },
-                items: [{
+                    fieldLabel: 'Total time'
+                }, {
                     xtype: 'numberfield',
                     name : 'max_depth',
                     margin: '0 0 3 0',
                     maxWidth: 120,
-                    fieldLabel: 'Depth'
-                }, {
-                    xtype: 'displayfield',
-                    name : 'pg_start',
-                    labelWidth: 50,
-                    maxWidth: 100,
-                    fieldLabel: 'Start PG'
-                }, {
-                    xtype: 'displayfield',
-                    name : 'pg_end',
-                    labelWidth: 45,
-                    maxWidth: 50,
-                    fieldLabel: 'End PG'
+                    fieldLabel: 'Max depth'
                 }]
-            }]
-        }];
-
-        this.buttons = [{
-            text: 'Save',
-            // formBind: true,
-            // disabled: true,
-            action: 'save'
-        }, {
-            text: 'Cancel',
-            scope: this,
-            handler: this.close
+            }, {
+                xtype: 'pgpanel',
+                margin: '0 0 0 5',
+                flex: 2
+            }]            
+        
         }];
 
         this.callParent(arguments);

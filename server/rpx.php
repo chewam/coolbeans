@@ -68,7 +68,7 @@ if(strlen($token) == 40) {//test the length of the token; it should be 40 charac
     echo "\n FAIS PETER :";
     echo "\n"; var_dump($auth_info['profile']);
 
-    $openid = $auth_info['profile']['googleUserId'];
+    $openid = $auth_info['profile']['identifier'];
     $name = $auth_info['profile']['name']['formatted'];
     $email = $auth_info['profile']['email'];
     $provider = $auth_info['profile']['providerName'];

@@ -3,7 +3,7 @@
     include('server/config.php');
     
     session_start();
-    if (!isset($_SESSION) || !strlen($_SESSION['openid'])) {
+    if (!isset($_SESSION) || !isset($_SESSION['openid']) || !strlen($_SESSION['openid'])) {
         header('Location: index.php');
     }
 

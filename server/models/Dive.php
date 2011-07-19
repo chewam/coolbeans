@@ -8,6 +8,11 @@ class Dive extends ActiveRecord\Model {
         // array('name', 'to' => 'country', 'prefix' => 'country'),
         array('name', 'to' => 'objective', 'prefix' => 'objective')
     );
+
+    public function levels() {
+        return json_decode($this->levels);
+    }
+
 }
 
 ?>

@@ -36,6 +36,9 @@ Ext.define('CB.controller.Dives', {
             'diveedit toolbar button[action=save]': {
                 click: this.updateDive
             },
+            'diveedit pgpanel': {
+                pgchange: this.setLevels
+            },
             'diveedit': {
                 render: this.onEditRender 
             },
@@ -72,6 +75,12 @@ Ext.define('CB.controller.Dives', {
         this.listView.getView().select(0);
     },
 
+    setLevels: function(pgpanel, data, pg) {
+        console.log("setLevels", this, arguments);
+        var record = this.getDivesStore().getAt(this.activeRecordIndex);
+        record.set('levels', data);
+    },
+
     updateDive: function(button) {
         var form = this.editView.getForm();
         if (form.isValid()) {
@@ -84,26 +93,35 @@ Ext.define('CB.controller.Dives', {
         }
     },
 
+    updateCombo: function(record) {
+        var combo = this.editView.down('combobox[name="location"]');
+        combo.store.removeAll();
+        combo.store.add({
+            address: record.get('location'),
+            lat: record.get('lat'),
+            lng: record.get('lng'),
+            country: record.get('country')
+        });
+    },
+
+    updateMap: function(record) {
+        this.editView.down('gmappanel').showLatLng({
+            lat: record.get('lat'),
+            lng: record.get('lng')
+        });
+    },
+
+    updateLevels: function(record) {
+        this.editView.down('pgpanel').updateLevels(record.get('levels'));
+    },
+
     editDive: function(grid, records) {
         if (records.length) {
-            var record = records[0],
-                combo = this.editView.down('combobox[name="location"]');
-            // this.editView.enable();
-            // this.mapView.setCenter(record.get("location") + ', ' + record.get("country").name);
-            combo.store.removeAll();
-            combo.store.add({
-                address: record.get('location'),
-                lat: record.get('lat'),
-                lng: record.get('lng'),
-                country: record.get('country')
-            });
+            var record = records[0];
+            this.updateCombo(record);
+            this.updateLevels(record);
+            this.updateMap(record);
             this.editView.loadRecord(record);
-            this.editView.down('gmappanel').showLatLng({
-                lat: record.get('lat'),
-                lng: record.get('lng')
-            });
-            // console.log("COMBO", combo, combo.store, record.get('location'));
-            // combo.setValue(record.get('location'));
             this.activeRecordIndex = this.getDivesStore().indexOf(record);
         } else if (this.activeRecordIndex !== false) {
             this.editView.down('combobox[name="location"]').store.removeAll();

@@ -29,13 +29,16 @@ $dive->location = $R['location'];
 $dive->site = $R['site'];
 $dive->max_depth = $R['max_depth'];
 $dive->pg_start = getStartPressureGroup($dive);
-$dive->pg_end = getEndPressureGroup($dive);
+// $dive->pg_end = getEndPressureGroup($dive);
+$dive->pg_end = $R['pg_end'];
+
+$dive->levels = json_encode($R['levels']);
 
 $dive->save();
 
-$data = $dive->to_json(/*array(
-    'include' => array('country')
-)*/);
+$data = $dive->to_json(array(
+    'methods' => 'levels'
+));
 
 print '{"success":true, data:['.$data.']}';
 

@@ -22,7 +22,7 @@
     </head>
     <body>
         <div class="page">
-        <iframe src="http://coolbeans.rpxnow.com/openid/embed?token_url=http%3A%2F%2Fhome.chewam.com%2Fpub%2Fcoolbeans%2Fserver%2Frpx.php" scrolling="no" frameBorder="no" allowtransparency="true" style="width:368px;height:218px"></iframe>
+            <iframe src="http://coolbeans.rpxnow.com/openid/embed?token_url=http%3A%2F%2Fhome.chewam.com%2Fpub%2Fcoolbeans%2Fserver%2Frpx.php" scrolling="no" frameBorder="no" allowtransparency="true" style="width:368px;height:218px"></iframe>
         </div>
     </body>
 </html>

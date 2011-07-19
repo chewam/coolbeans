@@ -2,7 +2,7 @@
 
 session_start();
 
-header('Content-Type: text/plain');
+header('Content-Type: application/json');
 
 include('../config.php');
 
@@ -39,9 +39,9 @@ $dives = Dive::find('all', $options);
 
 $data = array();
 foreach ($dives as $dive) {
-    $data[] = $dive->to_json(/*array(
-        'include' => array('country')
-    )*/);
+    $data[] = $dive->to_json(array(
+        'methods' => 'levels'
+    ));
 }
 
 print '{"success":true, data:['. implode(',', $data) .']}';
