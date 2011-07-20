@@ -28,9 +28,20 @@ Ext.define('Ext.ux.GMapFieldContainer', {
             },
             fieldDefaults: {labelWidth: 60},
             items: [{
+                xtype: 'datefield',
+                name : 'dive_date',
+                // margin: '0 0 3 0',
+                format: 'm/d/Y',
+                altFormats: 'c',
+                submitFormat: 'c',
+                maxWidth: 130,
+                labelWidth: 30,
+                allowBlank: false,
+                fieldLabel: 'Date'
+            }, {
                 xtype: 'combobox',
                 labelAlign: 'top',
-                margin: '0 0 1 0',
+                margin: '5 0 1 0',
                 fieldLabel: 'Location',
                 displayField: 'address',
                 valueField: 'address',
@@ -85,16 +96,6 @@ Ext.define('Ext.ux.GMapFieldContainer', {
                 submitValue: true,
                 decimalPrecision: 8,
                 name: 'lng'
-            }, {
-                xtype: 'datefield',
-                name : 'dive_date',
-                margin: '10 0 3 0',
-                format: 'm/d/Y',
-                altFormats: 'c',
-                submitFormat: 'c',
-                maxWidth: 160,
-                allowBlank: false,
-                fieldLabel: 'Date'
             }, {
                 xtype: 'combobox',
                 name: 'objective_id',

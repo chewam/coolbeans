@@ -37,7 +37,7 @@ $dive->levels = json_encode($R['levels']);
 $dive->save();
 
 $data = $dive->to_json(array(
-    'methods' => 'levels'
+    'methods' => array('levels', 'previous_dive')
 ));
 
 print '{"success":true, data:['.$data.']}';

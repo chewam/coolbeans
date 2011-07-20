@@ -40,7 +40,7 @@ $dives = Dive::find('all', $options);
 $data = array();
 foreach ($dives as $dive) {
     $data[] = $dive->to_json(array(
-        'methods' => 'levels'
+        'methods' => array('levels', 'previous_dive')
     ));
 }
 

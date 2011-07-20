@@ -16,7 +16,7 @@ Ext.define('CB.model.Dive', {
             console.log("CONVERT", time_out, record, v);
             return time_out;
         }},
-        'time_in', 'lat', 'lng',
+        'time_in', 'lat', 'lng', 'previous_dive',
         'country', 'location', 'site', 'total_time', 'pg_start', 'pg_end', 'objective_id', 'levels'
     ]
 });

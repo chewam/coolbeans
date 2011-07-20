@@ -12,10 +12,6 @@ Ext.define('Ext.ux.PgPanel', {
 
     initComponent : function() {
 
-        // Ext.apply(Ext.form.field.VTypes, {
-        //     pgpanel: Ext.bind(this.handleFielValidation, this)
-        // });
-
         this.items = [{
             xtype: 'fieldcontainer',
             layout: {
@@ -42,7 +38,11 @@ Ext.define('Ext.ux.PgPanel', {
                 altFormats: 'c',
                 submitFormat: 'H:i:s',
                 increment: 30,
-                xtype: 'timefield'
+                xtype: 'timefield',
+                listeners: {
+                    scope: this,
+                    change: this.handleValuesChange
+                }
             }, {
                 fieldLabel: 'Time out',
                 width: 60,
@@ -183,60 +183,61 @@ Ext.define('Ext.ux.PgPanel', {
 
     handleValuesChange: function(field, newValue, oldValue) {
         if (this.timeout) clearTimeout(this.timeout);
-        this.timeout = setTimeout(Ext.bind(this.calculatePg, this), 500);
+        this.timeout = setTimeout(Ext.bind(this.updateTimeAndPg, this), 500);
     },
 
-    calculatePg: function() {
+    updateTimeAndPg: function() {
         if (this.timeout) delete this.timeout;
+        this.updateTimeOut();
+        this.updatePg();
+    },
 
-        var fields, time, depth,
-            data = [], total_time = 0,
-            storeLevels = true,
+    updateTimeOut: function() {
+        var fields,
+            total_time = 0,
+            fieldsets = this.query('fieldset');
+
+        for (var i = 0, l = fieldsets.length; i < l; i++) {
+            fields = fieldsets[i].query('numberfield');
+            total_time += parseInt(fields[0].getValue());
+        }
+
+        if (total_time > 0) {
+            var time_in = this.down('timefield[name="time_in"]').getValue();
+            var dt = Ext.Date.add(time_in, Ext.Date.MINUTE, total_time);
+            this.down('displayfield[name="time_out"]').setValue(Ext.Date.format(dt, 'H:i'));
+        }
+    },
+
+    updatePg: function() {
+        var data = [],
+            fields, time, depth,
             fieldsets = this.query('fieldset');
 
         for (var i = 0, l = fieldsets.length; i < l; i++) {
             fields = fieldsets[i].query('numberfield');
             time = parseInt(fields[0].getValue());
             depth = parseInt(fields[1].getValue());
-            total_time += time;
-            if (storeLevels && time > 0 && depth > 0) {
+            if (time > 0 && depth > 0) {
                 data.push({
                     time: time,
                     depth: depth
                 });
-            } else storeLevels = false;
+            } else break;
         }
 
         if (data.length) {
             this.getPg(data);
         }
-
-        if (total_time > 0) {
-            this.updateTimeOut(total_time);
-        }
-
-        // var values = this.getValues();
-        // if (values.time_in && values.pp_time) {
-        //     this.calculateTimeOut();
-        // }
-        // console.log("calculatePg", this, values, values.pp_pg_start, values.time_in, values.btime, values.pp_depth);
-        // if (/*values.pp_pg_start && values.time_in && */values.btime && values.pp_depth) {
-        //     this.getPg({
-        //         // pg_start: values.pp_pg_start,
-        //         // time_in: values.time_in,
-        //         btime: values.btime,
-        //         depth: values.pp_depth
-        //     });
-        // }
     },
 
-    updateTimeOut: function(time) {
-        var time_in = this.down('timefield[name="time_in"]').getValue();
-        // var dt = new Date(time_in);
-        dt = Ext.Date.add(time_in, Ext.Date.MINUTE, time);
-        this.down('displayfield[name="time_out"]').setValue(Ext.Date.format(dt, 'H:i'));
-        // console.log("updateTimeOut", this, arguments, time_in, dt);
-    },
+    // updateTimeOut: function(time) {
+    //     var time_in = this.down('timefield[name="time_in"]').getValue();
+    //     // var dt = new Date(time_in);
+    //     dt = Ext.Date.add(time_in, Ext.Date.MINUTE, time);
+    //     this.down('displayfield[name="time_out"]').setValue(Ext.Date.format(dt, 'H:i'));
+    //     // console.log("updateTimeOut", this, arguments, time_in, dt);
+    // },
 
     // calculateTimeOut: function() {
     //     console.log("calculateTimeOut", this, arguments);
@@ -244,9 +245,17 @@ Ext.define('Ext.ux.PgPanel', {
 
     getPg: function(data) {
         // console.log("getPg", this, arguments);
+        var last_time_out = this.down('#previousdive displayfield[fieldLabel="Time out"]');
+        var last_pg_end = this.down('#previousdive displayfield[fieldLabel="Time PG end"]');
+        var time_in = this.down('timefield[name="time_in"]');
         Ext.Ajax.request({
             url: 'server/views/PressureGroups.php',
-            params: Ext.encode(data),
+            params: Ext.encode({
+                time_in: time_in ? time_in.getValue() : undefined,
+                last_time_out: last_time_out ? last_time_out.getValue() : undefined,
+                last_pg_end: last_pg_end ? last_pg_end.getValue() : undefined,
+                levels: data
+            }),
             scope: this,
             callback: function(options, success, response) {
                 if (success) {
@@ -275,6 +284,58 @@ Ext.define('Ext.ux.PgPanel', {
             this.down('#fieldsetcontainer').add(this.getLevelConfig());
         }
     },
+
+    updatePreviousDive: function(data) {
+        var panel = this.down('#previousdive');
+        if (panel) this.remove(panel);
+        if (data) {
+            this.insert(0, this.getPreviousDiveConfig(data));
+        }
+    },
+
+    getPreviousDiveConfig: function(data) {
+        return [{
+            xtype: 'fieldcontainer',
+            margin: '0 0 20 0',
+            id: 'previousdive',
+            layout: {
+                type: 'hbox'
+            },
+            fieldDefaults: {
+                labelAlign: 'top',
+                labelWidth: 50,
+                margin: '0 0 0 5'
+            },
+            items: [{
+                fieldLabel: 'PG start',
+                xtype: 'displayfield',
+                margin: '0 0 0 15',
+                width: 50,
+                value: data.pg_start
+            }, {
+                fieldLabel: 'Time in',
+                width: 60,
+                xtype: 'displayfield',
+                value: data.time_in
+            }, {
+                fieldLabel: 'Time out',
+                width: 60,
+                margin: '0 0 0 50',
+                xtype: 'displayfield',
+                value: data.time_out
+            }, {
+                fieldLabel: 'PG end',
+                width: 50,
+                xtype: 'displayfield',
+                value: data.pg_end
+            }, {
+                fieldLabel: 'Interval',
+                width: 50,
+                xtype: 'displayfield',
+                value: data.interval_time
+            }]
+        }];
+    }
 
 });
 
