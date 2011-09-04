@@ -13,7 +13,8 @@ Ext.define('CB.model.Dive', {
                 var dt = new Date(v);
                 time_out = Ext.Date.format(dt, 'H:i');
             }
-            console.log("CONVERT", time_out, record, v);
+            // TODO: check why CONVERT is called 3 times on SAVE ?
+            // console.log("CONVERT", time_out, record, v);
             return time_out;
         }},
         'time_in', 'lat', 'lng', 'previous_dive',

@@ -8,7 +8,7 @@ Ext.define('Ext.ux.PgPanel', {
 
     levelStartIndex: 1,
 
-    pollForChanges: true,
+    // pollForChanges: true,
 
     initComponent : function() {
 
@@ -48,37 +48,31 @@ Ext.define('Ext.ux.PgPanel', {
                 width: 60,
                 name: 'time_out',
                 margin: '0 0 0 50',
-                // format: 'H:i',
-                // altFormats: 'c',
-                // submitFormat: 'H:i:s',
-                // increment: 30,
                 submitValue: true,
-                xtype: 'displayfield'
+                xtype: 'displayfield',
+                value: ""
             }, {
                 fieldLabel: 'PG end',
                 width: 50,
                 name: 'pg_end',
                 submitValue: true,
-                xtype: 'displayfield'
+                xtype: 'displayfield',
+                value: ""
             }]
         }, {
             layout: 'hbox',
             border: false,
             items:[{
                 height: 100,
-                // width: 60,
                 border: false,
                 layout: {
                     type: 'vbox'
-                    // align: 'center'
                 },
                 items:[{
                     xtype: 'button',
                     tooltip: 'Add level',
                     iconCls: 'icon-add',
                     margin: '4 3 0 0',
-                    // height: 23,
-                    // width: 23,
                     scope: this,
                     handler: this.addLevel
                 }, {
@@ -86,9 +80,6 @@ Ext.define('Ext.ux.PgPanel', {
                     tooltip: 'Delete last level',
                     iconCls: 'icon-delete',
                     margin: '3 3 0 0',
-                    // margin: '9 0 0 5',
-                    // height: 23,
-                    // width: 23,
                     scope: this,
                     handler: this.deleteLevel
                 }]
@@ -102,18 +93,35 @@ Ext.define('Ext.ux.PgPanel', {
 
         this.callParent();
 
-        // this.on('fielderrorchange', function() {
-        //     console.log("fielderrorchange", this, arguments);
-        // });
-        // 
-        // this.on('fieldvaliditychange', function() {
-        //     console.log("fieldvaliditychange", this, arguments);
-        // });
-        // 
-        // this.getForm().on('validitychange', function() {
-        //     console.log("validitychange", this, arguments);
-        // })
+        
 
+    },
+
+    afterRender: function() {
+        this.callParent();
+        console.log("afterRender", this, arguments);
+        // this.startChangePolling();
+        this.form.on('dirtychange', function() {
+            console.log("dirtychange", this, arguments);
+        });
+    },
+
+    startChangePolling: function() {
+        var task = Ext.create('Ext.util.TaskRunner', 2000);
+        task.start({
+            interval: 0,
+            scope: this,
+            run: this.checkFieldChanges
+        });
+        // this.pollTask = task;
+    },
+
+    checkFieldChanges: function() {
+        var values = this.form.getValues(true, true, true);
+        if (values.length) {
+            values = Ext.urlDecode(values);
+            console.log("values", values, values.length);
+        }
     },
 
     getLevelConfig: function(data) {
@@ -125,8 +133,6 @@ Ext.define('Ext.ux.PgPanel', {
                 xtype: 'fieldcontainer',
                 layout: {
                     type: 'hbox'
-                    // pack: 'start',
-                    // align: 'left'
                 },
                 defaults: {
                     listeners: {
@@ -144,7 +150,6 @@ Ext.define('Ext.ux.PgPanel', {
                     xtype: 'numberfield',
                     name: 'btime',
                     value: data ? data.time : undefined
-                    // vtype: 'pgpanel'
                 }, {
                     fieldLabel: 'Depth (meters)',
                     width: 145,
@@ -154,7 +159,6 @@ Ext.define('Ext.ux.PgPanel', {
                     minValue: 0,
                     name: 'pp_depth',
                     value: data ? data.depth : undefined
-                    // vtype: 'pgpanel'
                 }]
             }]
         };
@@ -174,12 +178,6 @@ Ext.define('Ext.ux.PgPanel', {
             last.ownerCt.remove(last);
         }
     },
-
-    // handleFielValidation: function() {
-    //     if (this.timeout) clearTimeout(this.timeout);
-    //     this.timeout = setTimeout(Ext.bind(this.calculatePg, this), 2000);
-    //     return true;
-    // },
 
     handleValuesChange: function(field, newValue, oldValue) {
         if (this.timeout) clearTimeout(this.timeout);
@@ -231,27 +229,15 @@ Ext.define('Ext.ux.PgPanel', {
         }
     },
 
-    // updateTimeOut: function(time) {
-    //     var time_in = this.down('timefield[name="time_in"]').getValue();
-    //     // var dt = new Date(time_in);
-    //     dt = Ext.Date.add(time_in, Ext.Date.MINUTE, time);
-    //     this.down('displayfield[name="time_out"]').setValue(Ext.Date.format(dt, 'H:i'));
-    //     // console.log("updateTimeOut", this, arguments, time_in, dt);
-    // },
-
-    // calculateTimeOut: function() {
-    //     console.log("calculateTimeOut", this, arguments);
-    // },
-
     getPg: function(data) {
-        // console.log("getPg", this, arguments);
         var last_time_out = this.down('#previousdive displayfield[fieldLabel="Time out"]');
-        var last_pg_end = this.down('#previousdive displayfield[fieldLabel="Time PG end"]');
+        var last_pg_end = this.down('#previousdive displayfield[fieldLabel="PG end"]');
         var time_in = this.down('timefield[name="time_in"]');
+        console.log("getpg", time_in.getValue());
         Ext.Ajax.request({
             url: 'server/views/PressureGroups.php',
             params: Ext.encode({
-                time_in: time_in ? time_in.getValue() : undefined,
+                time_in: time_in ? Ext.Date.format(time_in.getValue(), 'H:i') : undefined,
                 last_time_out: last_time_out ? last_time_out.getValue() : undefined,
                 last_pg_end: last_pg_end ? last_pg_end.getValue() : undefined,
                 levels: data
