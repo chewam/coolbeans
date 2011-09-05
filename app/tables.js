@@ -9,14 +9,24 @@ var sys = require('sys'),
 function Tables(db) {
     // this.data = [];
     this.db = Cb.db;
-    // this.dataLoaded = 0;
+    this.dataLoaded = 0;
     events.EventEmitter.call(this);
     this.loadPg(21);
-    // this.loadPi();
+    this.loadPi(21);
     this.loadRnt(21);
+
+    this.on('load', this.onLoad);
+
 };
 sys.inherits(Tables, events.EventEmitter);
 
+
+Tables.prototype.onLoad = function() {
+    this.dataLoaded++;
+    if (this.dataLoaded === 3) {
+        this.emit('dataloaded', this);
+    }
+}
 
 /**
  * Load pg table asynchronously from database
@@ -35,6 +45,7 @@ Tables.prototype.loadPg = function(oxygen) {
         self.Pg[oxygen].data = results;
         self.setDistinctPgDepth(oxygen);
         self.db.end();
+        self.emit('load', 'Pg', oxygen);
     };
 
     this.db.query(query, func);
@@ -69,12 +80,10 @@ Tables.prototype.getPg = function(depth, duration, oxygen) {
 
     for (var i = 0, l = d.length; i < l; i++) {
         if (d[i].depth === depth) {
-            // console.log("****", d[i]);
             pg = d[i].pg;
             if (d[i].duration >= duration) break;
         }
     }
-    console.log('Tables.prototype.getPg', depth, pg);
     return pg;
 }
 
@@ -84,18 +93,38 @@ Tables.prototype.getPg = function(depth, duration, oxygen) {
  * @return {Void}
  * @api public
  */
-Tables.prototype.loadPi = function() {
+Tables.prototype.loadPi = function(oxygen) {
     var self = this,
-        query = 'SELECT * FROM pressure_intervals';
+        query = 'SELECT pg_start AS startPg, pg_end AS endPg, time_min AS minTime, time_max AS maxTime FROM pressure_intervals WHERE oxygen = '+oxygen+' ORDER BY pg_start, time_min';
 
     var func = function(err, results, fields) {
         if (err) { throw err; }
-        self.Pi = results;
+        self.Pi = self.Pi || {};
+        self.Pi[oxygen] = self.Pi[oxygen] || {};
+        self.Pi[oxygen].data = results;
         self.db.end();
+        self.emit('load', 'Pi', oxygen);
     };
 
     this.db.query(query, func);
 };
+
+
+Tables.prototype.getStartPg = function(endPg, interval, oxygen) {
+    var pg = 0,
+        d = this.Pi[oxygen].data;
+
+    for (var i = 0, l = d.length; i < l; i++) {
+        if (d[i].startPg === endPg) {
+            if (d[i].minTime <= interval && interval <= d[i].maxTime) {
+                pg = d[i].endPg;
+                break;
+            }
+        }
+    }
+
+    return pg;
+}
 
 
 /**
@@ -115,6 +144,7 @@ Tables.prototype.loadRnt = function(oxygen) {
         self.Rnt[oxygen].data = results;
         self.setDistinctRntDepth(oxygen);
         self.db.end();
+        self.emit('load', 'Rnt', oxygen);
     };
 
     this.db.query(query, func);
@@ -156,25 +186,8 @@ Tables.prototype.getRnt = function(depth, pg, oxygen) {
     return rnt;
 }
 
-/**
- * Listener called after a load of data
- * 
- * @param {String} table
- * @param {Array} results
- * @return {Void}
- * @api private
- */
-// Tables.prototype.onLoad = function(table, results) {
-//     this.dataLoaded++;
-//     this.data[table] = results;
-//     if (this.dataLoaded === 3) {
-//         this.dataLoaded = true;
-//         this.emit('load', this, this.data);
-//     }
-// };
-
 
 /**
- * Expose Tables
+ * Expose tables
  */
 module.exports = new Tables();

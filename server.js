@@ -1,10 +1,25 @@
 var Cb = require('./app'),
+    test = require('./test'),
+    // vows = require('vows'),
     connect = require('connect');
 
 
-// Cb.tables.on('load', function() {
-//     console.log("Tables load: OK");
-// });
+Cb.tables.on('dataloaded', function(tables) {
+
+    console.log("Tables data load: OK");
+    test.run();
+    // var suite = vows.describe('tables');
+    // suite.addBatch({
+    //    'tables load': {
+    //         topic: Cb.tables,
+    //         'pressure groups table': function (topic) {
+    //             /* Test the result of the topic */
+    //             console.log("TOPIC", topic);
+    //         }
+    //     }
+    // });
+
+});
 
 
 var server = connect(

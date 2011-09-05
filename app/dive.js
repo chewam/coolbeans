@@ -52,13 +52,15 @@ Dive.prototype.loadData = function(data) {
     }
 
     this.data = {};
+
+    this.data.oxygen = parseInt(data.oxygen || this.defaultOxygen);
+
+    this.data.lastPg = data.lastPg || 0;
     this.data.levels = this.getLevels(data);
     this.data.maxDepth = this.getMaxDepth();
     this.data.interval = this.getInterval(data);
     this.data.startPg = this.getStartPg(data);
     this.data.rnt = this.getRnt();
-    this.data.lastPg = data.lastPg || 0;
-    this.data.oxygen = parseInt(data.oxygen || this.defaultOxygen);
 };
 
 
@@ -110,11 +112,15 @@ Dive.prototype.getInterval = function(data) {
  * @api public
  */
 Dive.prototype.getStartPg = function(data) {
-    var pg = 0;
+    var pg = 0,
+        lastPg = this.data.lastPg,
+        interval = this.data.interval;
+
     if (data.startPg) pg = data.startPg;
-    else if (this.data.interval) {
-        // do something
+    else if (interval && lastPg) {
+        pg = Cb.tables.getStartPg(lastPg, interval, this.data.oxygen);
     }
+
     return pg;
 }
 
@@ -129,7 +135,7 @@ Dive.prototype.getStartPg = function(data) {
 Dive.prototype.getRnt = function() {
     var pg = this.data.startPg,
     depth = this.data.maxDepth;
-    return Cb.tables.getRnt(depth, pg, 21);
+    return Cb.tables.getRnt(depth, pg, this.data.oxygen);
 }
 
 
@@ -140,7 +146,6 @@ Dive.prototype.getRnt = function() {
  * @api public
  */
 Dive.prototype.compute = function() {
-    console.log("Dive.prototype.compute");
     // this.computeDuration();
     // this.computeMaxDepth();
     this.computeEndPg();
@@ -155,7 +160,6 @@ Dive.prototype.compute = function() {
  * @api public
  */
 Dive.prototype.computeDuration = function() {
-    console.log("Dive.prototype.computeDuration");
     var levels = this.data.levels, duration = 0;
     for (var i = 0, l = levels.length; i < l; i++) {
         duration += levels[i].duration;
@@ -172,7 +176,6 @@ Dive.prototype.computeDuration = function() {
  * @api public
  */
 Dive.prototype.getMaxDepth = function() {
-    console.log("Dive.prototype.computeMaxDepth");
     var levels = this.data.levels, depth = 0;
     for (var i = 0, l = levels.length; i < l; i++) {
         if (depth < levels[i].depth) {
@@ -190,8 +193,6 @@ Dive.prototype.getMaxDepth = function() {
  * @api public
  */
 Dive.prototype.computeEndPg = function() {
-    console.log("Dive.prototype.computeEndPg");
-    
     var d = this.data, c = 0,
         depth, rnt, duration, pg = 0,
         offset = 'A'.charCodeAt() - 1;
@@ -201,7 +202,7 @@ Dive.prototype.computeEndPg = function() {
         depth = d.levels[j].depth;
         if (depth && duration) {
             rnt = this.data.maxDepth === depth ? this.data.rnt : 0;
-            pg += Cb.tables.getPg(depth, duration + rnt, 21).charCodeAt(0) - offset;
+            pg += Cb.tables.getPg(depth, duration + rnt, this.data.oxygen).charCodeAt(0) - offset;
         }
     }
 
