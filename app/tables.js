@@ -9,14 +9,11 @@ var sys = require('sys'),
 function Tables(db) {
     // this.data = [];
     this.db = Cb.db;
-    this.Pg = {
-        '21': {}
-    };
     // this.dataLoaded = 0;
     events.EventEmitter.call(this);
     this.loadPg(21);
     // this.loadPi();
-    // this.loadRnt();
+    this.loadRnt(21);
 };
 sys.inherits(Tables, events.EventEmitter);
 
@@ -33,15 +30,17 @@ Tables.prototype.loadPg = function(oxygen) {
 
     var func = function(err, results, fields) {
         if (err) { throw err; }
+        self.Pg = self.Pg || {};
+        self.Pg[oxygen] = self.Pg[oxygen] || {};
         self.Pg[oxygen].data = results;
-        self.setDistinctDepth(oxygen);
+        self.setDistinctPgDepth(oxygen);
         self.db.end();
     };
 
     this.db.query(query, func);
 };
 
-Tables.prototype.setDistinctDepth = function(oxygen) {
+Tables.prototype.setDistinctPgDepth = function(oxygen) {
     var depth = [],
         d = this.Pg[oxygen].data;
     for (var i = 0, l = d.length; i < l; i++) {
@@ -52,11 +51,21 @@ Tables.prototype.setDistinctDepth = function(oxygen) {
     this.Pg[oxygen].depth = depth;
 }
 
+Tables.prototype.getPgDepth = function(depth, oxygen) {
+    var d = 0;
+        depths = this.Pg[oxygen].depth;
+    for (var i = 0, l = depths.length; i < l; i++) {
+        d = depths[i];
+        if (d >= depth) break;
+    }
+    return d;
+}
+
 Tables.prototype.getPg = function(depth, duration, oxygen) {
     var pg = 0,
-    d = this.Pg[oxygen].data;
+        d = this.Pg[oxygen].data;
 
-    depth = this.getDepth(depth, oxygen);
+    depth = this.getPgDepth(depth, oxygen);
 
     for (var i = 0, l = d.length; i < l; i++) {
         if (d[i].depth === depth) {
@@ -67,17 +76,6 @@ Tables.prototype.getPg = function(depth, duration, oxygen) {
     }
     console.log('Tables.prototype.getPg', depth, pg);
     return pg;
-}
-
-
-Tables.prototype.getDepth = function(depth, oxygen) {
-    var d = 0;
-        depths = this.Pg[oxygen].depth;
-    for (var i = 0, l = depths.length; i < l; i++) {
-        d = depths[i];
-        if (d >= depth) break;
-    }
-    return d;
 }
 
 /**
@@ -106,20 +104,57 @@ Tables.prototype.loadPi = function() {
  * @return {Void}
  * @api public
  */
-Tables.prototype.loadRnt = function() {
+Tables.prototype.loadRnt = function(oxygen) {
     var self = this,
-        query = 'SELECT * FROM pressure_intervals';
+        query = 'SELECT pg, depth, rnt  FROM residual_nitrogen_times WHERE oxygen = '+oxygen+' ORDER BY pg, depth';
 
     var func = function(err, results, fields) {
         if (err) { throw err; }
-        self.Rnt = results;
+        self.Rnt = self.Rnt || {};
+        self.Rnt[oxygen] = self.Rnt[oxygen] || {};
+        self.Rnt[oxygen].data = results;
+        self.setDistinctRntDepth(oxygen);
         self.db.end();
     };
 
     this.db.query(query, func);
 };
 
+Tables.prototype.setDistinctRntDepth = function(oxygen) {
+    var depth = [],
+        d = this.Rnt[oxygen].data;
+    for (var i = 0, l = d.length; i < l; i++) {
+        if (depth.indexOf(d[i].depth)) {
+            depth.push(d[i].depth);
+        }
+    }
+    this.Rnt[oxygen].depth = depth;
+}
 
+Tables.prototype.getRntDepth = function(depth, oxygen) {
+    var d = 0;
+        depths = this.Rnt[oxygen].depth;
+    for (var i = 0, l = depths.length; i < l; i++) {
+        d = depths[i];
+        if (d >= depth) break;
+    }
+    return d;
+}
+
+Tables.prototype.getRnt = function(depth, pg, oxygen) {
+    var rnt = 0,
+        d = this.Rnt[oxygen].data;
+
+    depth = this.getRntDepth(depth, oxygen);
+
+    for (var i = 0, l = d.length; i < l; i++) {
+        if (d[i].depth === depth && d[i].pg === pg) {
+            rnt = d[i].rnt;
+            break;
+        }
+    }
+    return rnt;
+}
 
 /**
  * Listener called after a load of data

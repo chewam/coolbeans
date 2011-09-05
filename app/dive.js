@@ -51,13 +51,14 @@ Dive.prototype.loadData = function(data) {
         return;
     }
 
-    this.data = {
-        levels: this.getLevels(data),
-        interval: this.getInterval(data),
-        lastPg: data.lastPg || 0,
-        oxygen: parseInt(data.oxygen || this.defaultOxygen)
-    };
-
+    this.data = {};
+    this.data.levels = this.getLevels(data);
+    this.data.maxDepth = this.getMaxDepth();
+    this.data.interval = this.getInterval(data);
+    this.data.startPg = this.getStartPg(data);
+    this.data.rnt = this.getRnt();
+    this.data.lastPg = data.lastPg || 0;
+    this.data.oxygen = parseInt(data.oxygen || this.defaultOxygen);
 };
 
 
@@ -102,6 +103,37 @@ Dive.prototype.getInterval = function(data) {
 
 
 /**
+ * Set default data values
+ * 
+ * @param {Object} data
+ * @return {Void}
+ * @api public
+ */
+Dive.prototype.getStartPg = function(data) {
+    var pg = 0;
+    if (data.startPg) pg = data.startPg;
+    else if (this.data.interval) {
+        // do something
+    }
+    return pg;
+}
+
+
+/**
+ * Set default data values
+ * 
+ * @param {Object} data
+ * @return {Void}
+ * @api public
+ */
+Dive.prototype.getRnt = function() {
+    var pg = this.data.startPg,
+    depth = this.data.maxDepth;
+    return Cb.tables.getRnt(depth, pg, 21);
+}
+
+
+/**
  * Compute dive data
  * 
  * @return {Object} this
@@ -139,7 +171,7 @@ Dive.prototype.computeDuration = function() {
  * @return {Object} this
  * @api public
  */
-Dive.prototype.computeMaxDepth = function() {
+Dive.prototype.getMaxDepth = function() {
     console.log("Dive.prototype.computeMaxDepth");
     var levels = this.data.levels, depth = 0;
     for (var i = 0, l = levels.length; i < l; i++) {
@@ -147,8 +179,7 @@ Dive.prototype.computeMaxDepth = function() {
             depth = levels[i].depth;
         }
     }
-    this.data.maxDepth = depth;
-    return this;
+    return depth;
 };
 
 
@@ -162,14 +193,15 @@ Dive.prototype.computeEndPg = function() {
     console.log("Dive.prototype.computeEndPg");
     
     var d = this.data, c = 0,
-        depth, duration, pg = 0,
+        depth, rnt, duration, pg = 0,
         offset = 'A'.charCodeAt() - 1;
 
     for (var j = 0, m = d.levels.length; j < m; j++) {
         duration = d.levels[j].duration;
         depth = d.levels[j].depth;
         if (depth && duration) {
-            pg += Cb.tables.getPg(depth, duration, 21).charCodeAt(0) - offset;
+            rnt = this.data.maxDepth === depth ? this.data.rnt : 0;
+            pg += Cb.tables.getPg(depth, duration + rnt, 21).charCodeAt(0) - offset;
         }
     }
 
