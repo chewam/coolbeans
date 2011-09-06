@@ -1,4 +1,5 @@
-var mysql = require('mysql');
+var config = require('./config');
+    mysql = require('mysql');
 
 
 /**
@@ -6,10 +7,10 @@ var mysql = require('mysql');
  */
 function Database() {
     client = mysql.createClient({
-      user: 'root',
-      password: 'juX2p0mX'
+      user: config.user,
+      password: config.password
     });
-    client.query('USE coolbeans');
+    client.query('USE ' + config.database);
     console.log("Database connection: OK");
     return client;
 };
