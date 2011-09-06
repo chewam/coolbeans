@@ -44,7 +44,7 @@ Tables.prototype.loadPg = function(oxygen) {
         self.Pg[oxygen] = self.Pg[oxygen] || {};
         self.Pg[oxygen].data = results;
         self.setDistinctPgDepth(oxygen);
-        self.db.end();
+        // self.db.end();
         self.emit('load', 'Pg', oxygen);
     };
 
@@ -102,7 +102,6 @@ Tables.prototype.loadPi = function(oxygen) {
         self.Pi = self.Pi || {};
         self.Pi[oxygen] = self.Pi[oxygen] || {};
         self.Pi[oxygen].data = results;
-        self.db.end();
         self.emit('load', 'Pi', oxygen);
     };
 
@@ -143,7 +142,6 @@ Tables.prototype.loadRnt = function(oxygen) {
         self.Rnt[oxygen] = self.Rnt[oxygen] || {};
         self.Rnt[oxygen].data = results;
         self.setDistinctRntDepth(oxygen);
-        self.db.end();
         self.emit('load', 'Rnt', oxygen);
     };
 

@@ -1,3 +1,5 @@
+console.log('node version: ' + process.version);
+
 var Cb = require('./app'),
     test = require('./test'),
     // vows = require('vows'),
