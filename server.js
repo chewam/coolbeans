@@ -7,24 +7,13 @@ var Cb = require('./app'),
 
 
 Cb.tables.on('dataloaded', function(tables) {
-
     console.log("Tables data load: OK");
-    test.run();
-    // var suite = vows.describe('tables');
-    // suite.addBatch({
-    //    'tables load': {
-    //         topic: Cb.tables,
-    //         'pressure groups table': function (topic) {
-    //             /* Test the result of the topic */
-    //             console.log("TOPIC", topic);
-    //         }
-    //     }
-    // });
-
 });
 
 
 var server = connect(
+
+    connect.favicon(),
 
     connect.logger(),
 
@@ -35,6 +24,11 @@ var server = connect(
             var dive = (new Cb.Dive(req.query)).compute();
             var json = JSON.stringify(dive.data);
             res.end(json);
+        });
+
+        app.get('/test', function(req, res) {
+            test.run(req, res);
+            res.end();
         });
 
         // app.get('/dives/:id', function(req, res) {

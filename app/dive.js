@@ -46,7 +46,7 @@ Dive.prototype.load = function(id, callback) {
  * @api public
  */
 Dive.prototype.loadData = function(data) {
-    if (!data){
+    if (!data) {
         this.data = {};
         return;
     }
@@ -72,11 +72,11 @@ Dive.prototype.loadData = function(data) {
  * @api public
  */
 Dive.prototype.getLevels = function(data) {
-    var levels = [], v;
+    var levels = [], v, lvs;
     if (data.levels) {
-        data.levels = data.levels.split('|');
-        for (var i = 0, l = data.levels.length; i < l; i++) {
-            v = data.levels[i].split(',');
+        lvs = data.levels.split('|');
+        for (var i = 0, l = lvs.length; i < l; i++) {
+            v = lvs[i].split(',');
             levels.push({
                 depth: parseInt(v[0]),
                 duration: parseInt(v[1])
