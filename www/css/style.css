@@ -1,0 +1,15 @@
+.result-panel {
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+}
+
+.result-panel .result-box {
+    padding: 60px;
+    color: #FFF;
+    font-size: 5em;
+    border-radius: 3px;
+    background: darkGreen;
+    text-shadow: 1px 1px 1px #000;
+    -webkit-box-shadow: 1px 1px 14px -5px black;
+}

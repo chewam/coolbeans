@@ -1,9 +1,11 @@
 console.log('node version: ' + process.version);
 
+
 var Cb = require('./app'),
     test = require('./test'),
     // vows = require('vows'),
     connect = require('connect');
+
 
 
 Cb.tables.on('dataloaded', function(tables) {
@@ -23,6 +25,10 @@ var server = connect(
         app.get('/', function(req, res) {
             var dive = (new Cb.Dive(req.query)).compute();
             var json = JSON.stringify(dive.data);
+            if (req.query.callback) {
+                res.setHeader('Content-Type', 'application/x-javascript');
+                json = req.query.callback + '([' + json + '])';
+            }
             res.end(json);
         });
 
