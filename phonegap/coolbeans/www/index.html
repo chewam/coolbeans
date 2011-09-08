@@ -7,13 +7,26 @@
         body {
             padding: 0;
             margin: 0;
-            background: url('http://goldledoigt:ju2pom@192.168.1.13/priv/projects/coolbeans/www/img/splashscreen_1024x768.png') no-repeat scroll 0 0 transparent;
+        }
+        @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:portrait) {
+            body {
+        	    background: url('http://goldledoigt:ju2pom@192.168.0.11/priv/projects/coolbeans_client/www/img/splashscreen_768x1024.png') no-repeat scroll 0 0 transparent;
+        	}
+        }
+        @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:landscape) {
+            body {
+        	    background: url('http://goldledoigt:ju2pom@192.168.0.11/priv/projects/coolbeans_client/www/img/splashscreen_1024x768.png') no-repeat scroll 0 0 transparent;
+        	}
+        }
+        @media only screen and (max-device-width: 480px) {
+            body {
+        	    background: url('http://goldledoigt:ju2pom@192.168.0.11/priv/projects/coolbeans_client/www/img/splashscreen_320x480.png') no-repeat scroll 0 0 transparent;
+            }
         }
     </style>
-	<!-- <script type="text/javascript" charset="utf-8" src="phonegap-1.0.0.js"></script> -->
     <script type="text/javascript" charset="utf-8">
         function onBodyLoad() {
-            document.location.replace("http://goldledoigt:ju2pom@192.168.1.13/priv/projects/coolbeans/www/index.html");
+            document.location.replace("http://goldledoigt:ju2pom@192.168.0.11/priv/projects/coolbeans_client/www/index.html");
         }
     </script>
   </head>

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E6B07479141870CA00428B3E /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E6B07478141870CA00428B3E /* Default-Landscape~ipad.png */; };
 		E6CEFA3014181CDE00EFEBF0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6CEFA2F14181CDE00EFEBF0 /* Foundation.framework */; };
 		E6CEFA3214181CDE00EFEBF0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6CEFA3114181CDE00EFEBF0 /* UIKit.framework */; };
 		E6CEFA3414181CDE00EFEBF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6CEFA3314181CDE00EFEBF0 /* CoreGraphics.framework */; };
@@ -34,16 +35,10 @@
 		E6CEFA6C14181CDF00EFEBF0 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = E6CEFA6B14181CDF00EFEBF0 /* PhoneGap.plist */; };
 		E6CEFA7014181CDF00EFEBF0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E6CEFA6F14181CDF00EFEBF0 /* AppDelegate.m */; };
 		E6CEFA7914181FA600EFEBF0 /* www in Resources */ = {isa = PBXBuildFile; fileRef = E6CEFA7814181FA600EFEBF0 /* www */; };
-		E6CEFA7F14182B5E00EFEBF0 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E6CEFA7E14182B5E00EFEBF0 /* Default-Portrait~ipad.png */; };
-		E6CEFA8114182B8200EFEBF0 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E6CEFA8014182B8200EFEBF0 /* Default-Landscape~ipad.png */; };
-		E6CEFA83141840BB00EFEBF0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E6CEFA82141840BB00EFEBF0 /* Default.png */; };
-		E6CEFA851418410700EFEBF0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6CEFA841418410700EFEBF0 /* Default@2x.png */; };
-		E6CEFA871418437300EFEBF0 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E6CEFA861418437300EFEBF0 /* icon@2x.png */; };
-		E6CEFA891418438500EFEBF0 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E6CEFA881418438500EFEBF0 /* icon.png */; };
-		E6CEFA8B1418439200EFEBF0 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = E6CEFA8A1418439200EFEBF0 /* icon-72.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E6B07478141870CA00428B3E /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		E6CEFA2B14181CDE00EFEBF0 /* coolbeans.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = coolbeans.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6CEFA2F14181CDE00EFEBF0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E6CEFA3114181CDE00EFEBF0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -76,13 +71,6 @@
 		E6CEFA6F14181CDF00EFEBF0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		E6CEFA7214181CDF00EFEBF0 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		E6CEFA7814181FA600EFEBF0 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
-		E6CEFA7E14182B5E00EFEBF0 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
-		E6CEFA8014182B8200EFEBF0 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		E6CEFA82141840BB00EFEBF0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		E6CEFA841418410700EFEBF0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		E6CEFA861418437300EFEBF0 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
-		E6CEFA881418438500EFEBF0 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		E6CEFA8A1418439200EFEBF0 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,13 +108,7 @@
 		E6CEFA1D14181CDE00EFEBF0 = {
 			isa = PBXGroup;
 			children = (
-				E6CEFA8A1418439200EFEBF0 /* icon-72.png */,
-				E6CEFA881418438500EFEBF0 /* icon.png */,
-				E6CEFA861418437300EFEBF0 /* icon@2x.png */,
-				E6CEFA841418410700EFEBF0 /* Default@2x.png */,
-				E6CEFA82141840BB00EFEBF0 /* Default.png */,
-				E6CEFA8014182B8200EFEBF0 /* Default-Landscape~ipad.png */,
-				E6CEFA7E14182B5E00EFEBF0 /* Default-Portrait~ipad.png */,
+				E6B07478141870CA00428B3E /* Default-Landscape~ipad.png */,
 				E6CEFA7814181FA600EFEBF0 /* www */,
 				E6CEFA4914181CDE00EFEBF0 /* coolbeans */,
 				E6CEFA2E14181CDE00EFEBF0 /* Frameworks */,
@@ -312,13 +294,7 @@
 				E6CEFA6A14181CDF00EFEBF0 /* Capture.bundle in Resources */,
 				E6CEFA6C14181CDF00EFEBF0 /* PhoneGap.plist in Resources */,
 				E6CEFA7914181FA600EFEBF0 /* www in Resources */,
-				E6CEFA7F14182B5E00EFEBF0 /* Default-Portrait~ipad.png in Resources */,
-				E6CEFA8114182B8200EFEBF0 /* Default-Landscape~ipad.png in Resources */,
-				E6CEFA83141840BB00EFEBF0 /* Default.png in Resources */,
-				E6CEFA851418410700EFEBF0 /* Default@2x.png in Resources */,
-				E6CEFA871418437300EFEBF0 /* icon@2x.png in Resources */,
-				E6CEFA891418438500EFEBF0 /* icon.png in Resources */,
-				E6CEFA8B1418439200EFEBF0 /* icon-72.png in Resources */,
+				E6B07479141870CA00428B3E /* Default-Landscape~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,7 +416,7 @@
 				GCC_PREFIX_HEADER = "coolbeans/coolbeans-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
 				INFOPLIST_FILE = "coolbeans/coolbeans-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -458,7 +434,7 @@
 				GCC_PREFIX_HEADER = "coolbeans/coolbeans-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
 				INFOPLIST_FILE = "coolbeans/coolbeans-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -485,6 +461,7 @@
 				E6CEFA7714181CDF00EFEBF0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

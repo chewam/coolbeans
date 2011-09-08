@@ -7,7 +7,21 @@
                 width: 100%;
                 z-index: 100000;
                 position: absolute;
-                background: url('img/splashscreen_1024x768.png') no-repeat scroll 0 0 transparent;
+            }
+            @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:portrait) {
+                .loadmask {
+            	    background: url('img/splashscreen_768x1024.png') no-repeat scroll 0 0 transparent;
+            	}
+            }
+            @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:landscape) {
+                .loadmask {
+            	    background: url('img/splashscreen_1024x768.png') no-repeat scroll 0 0 transparent;
+            	}
+            }
+            @media only screen and (max-device-width: 480px) {
+                .loadmask {
+            	    background: url('img/splashscreen_320x480.png') no-repeat scroll 0 0 transparent;
+                }
             }
         </style>
         <link rel="stylesheet" type="text/css" href="js/sencha-touch/resources/css/sencha-touch.css" />

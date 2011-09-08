@@ -6,6 +6,6 @@ Ext.ux.ResultStore = new Ext.data.Store({
     model: 'Result',
     proxy: {
         type: 'scripttag',
-        url : 'http://192.168.1.13:3000/'
+        url : 'http://coolbeans.chewam.com/'
     }
 });
