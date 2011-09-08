@@ -6,8 +6,17 @@ module.exports = function() {
 
     function getTests() {
         return [{
+            query: {},
+            result: {endPg: '0'}
+        }, {
             query: {depth: 11, duration: 58},
             result: {endPg: 'N'}
+        }, {
+            query: {depth: 25, duration: 25},
+            result: {endPg: 'N', safetyStop: true, noDecompressionLimit: false}
+        }, {
+            query: {depth: 40, duration: 9},
+            result: {endPg: 'G', safetyStop: true, noDecompressionLimit: true}
         }, {
             query: {startPg: 'C', depth: 16, duration: 26},
             result: {startPg: 'C', endPg: 'O', rnt: 17}

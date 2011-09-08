@@ -36,7 +36,7 @@ Tables.prototype.onLoad = function() {
  */
 Tables.prototype.loadPg = function(oxygen) {
     var self = this,
-        query = 'SELECT pg, depth, duration, oxygen, pp FROM pg WHERE oxygen = '+oxygen+' ORDER BY pg, depth';
+        query = 'SELECT pg, depth, duration, oxygen, pp, safetystop FROM pg WHERE oxygen = '+oxygen+' ORDER BY pg, depth';
 
     var func = function(err, results, fields) {
         if (err) { throw err; }
@@ -85,6 +85,19 @@ Tables.prototype.getPg = function(depth, duration, oxygen) {
         }
     }
     return pg;
+}
+
+Tables.prototype.getSafetyStop = function(pg, depth, oxygen) {
+    var st = false,
+        d = this.Pg[oxygen].data;
+
+    for (var i = 0, l = d.length; i < l; i++) {
+        if (d[i].pg === pg && d[i].depth === depth) {
+            st = d[i].safetystop;
+        }
+    }
+
+    return st;
 }
 
 /**

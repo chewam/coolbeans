@@ -149,6 +149,7 @@ Dive.prototype.compute = function() {
     // this.computeDuration();
     // this.computeMaxDepth();
     this.computeEndPg();
+    this.setSafetyStop();
     return this;
 };
 
@@ -206,10 +207,25 @@ Dive.prototype.computeEndPg = function() {
         }
     }
 
-    this.data.endPg = String.fromCharCode(pg + offset);
+    if (pg) pg = String.fromCharCode(pg + offset);
+
+    this.data.endPg = pg;
+
     return this;
 };
 
+
+/**
+ * Compute dive data
+ * 
+ * @return {Object} this
+ * @api public
+ */
+Dive.prototype.setSafetyStop = function() {
+    var safetyStop = Cb.tables.getSafetyStop(this.data.endPg, this.data.maxDepth, this.data.oxygen);
+    this.data.safetyStop = !!safetyStop;
+    this.data.noDecompressionLimit = safetyStop === 2;
+}
 
 /**
  * Expose Dive
