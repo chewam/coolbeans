@@ -2,13 +2,13 @@ Ext.ux.FormPanel = Ext.extend(Ext.form.FormPanel, {
 
     submitOnAction: true,
 
-    depthFieldsetTitle: 'Depth (in meters) : ',
+    depthFieldsetTitle: 'Depth (meters) : ',
 
     depthMinValue: 0,
 
     depthMaxValue: 42,
 
-    durationFieldsetTitle: 'Duration (in minutes) : ',
+    durationFieldsetTitle: 'Duration (minutes) : ',
 
     durationMinValue: 0,
 

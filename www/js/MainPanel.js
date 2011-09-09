@@ -47,6 +47,8 @@ Ext.ux.MainPanel = Ext.extend(Ext.Panel, {
                 form = this.items.getAt(0),
                 panel = this.items.getAt(1);
 
+            console.log("data", record.data);
+
             panel.update(record.data);
             this.setActiveItem(1, 'flip');
             this.backButton.show();

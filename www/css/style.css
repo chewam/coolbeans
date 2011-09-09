@@ -9,7 +9,15 @@
     color: #FFF;
     font-size: 5em;
     border-radius: 3px;
-    background: darkGreen;
+    background: darkgreen;
     text-shadow: 1px 1px 1px #000;
     -webkit-box-shadow: 1px 1px 14px -5px black;
+}
+
+.result-panel .result-box.result-box-st {
+    background: grey;
+}
+
+.result-panel .result-box.result-box-ndl {
+    background: black;
 }
