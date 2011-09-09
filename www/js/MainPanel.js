@@ -18,7 +18,7 @@ Ext.ux.MainPanel = Ext.extend(Ext.Panel, {
         this.dockedItems = [{
             dock: 'top',
             xtype: 'toolbar',
-            title: 'RECREATIONAL DIVE PLANNER'
+            title: 'DIVE PLANNER'
         }, {
             dock: 'bottom',
             xtype: 'toolbar',

@@ -17,6 +17,6 @@ Ext.ux.ResultStore = new Ext.data.Store({
     model: 'Result',
     proxy: {
         type: 'scripttag',
-        url : 'http://coolbeans.chewam.com/'
+        url : 'http://coolbeans.chewam.com/api/'
     }
 });
