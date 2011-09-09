@@ -12,6 +12,9 @@ module.exports = function() {
             query: {depth: 11, duration: 58},
             result: {endPg: 'N'}
         }, {
+            query: {depth: 10, duration: 178},
+            result: {endPg: 'X', safetyStop: true, noDecompressionLimit: false}
+        }, {
             query: {depth: 25, duration: 30},
             result: {endPg: 'Q', safetyStop: true, noDecompressionLimit: true}
         }, {

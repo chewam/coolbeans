@@ -91,6 +91,8 @@ Tables.prototype.getSafetyStop = function(pg, depth, oxygen) {
     var st = depth ? 2 : 0,
         d = this.Pg[oxygen].data;
 
+    depth = this.getPgDepth(depth, oxygen);
+
     for (var i = 0, l = d.length; i < l; i++) {
         if (d[i].pg === pg && d[i].depth === depth) {
             st = d[i].safetystop;
