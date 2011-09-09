@@ -7,10 +7,13 @@ module.exports = function() {
     function getTests() {
         return [{
             query: {},
-            result: {endPg: '0'}
+            result: {endPg: '0', safetyStop: false, noDecompressionLimit: false}
         }, {
             query: {depth: 11, duration: 58},
             result: {endPg: 'N'}
+        }, {
+            query: {depth: 25, duration: 30},
+            result: {endPg: 'Q', safetyStop: true, noDecompressionLimit: true}
         }, {
             query: {depth: 25, duration: 25},
             result: {endPg: 'N', safetyStop: true, noDecompressionLimit: false}
