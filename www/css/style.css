@@ -1,3 +1,15 @@
+.main-panel-title {
+    letter-spacing: 8px;
+    line-height: 1em;
+    padding: 10px 0 0 7px;
+}
+
+.main-panel-subtitle {
+    line-height: 1em;
+    font-size: 13px;
+    padding-top: 2px;
+}
+
 .result-panel {
     display: -webkit-box;
     -webkit-box-pack: center;

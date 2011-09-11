@@ -7,9 +7,9 @@ Ext.ux.MainPanel = Ext.extend(Ext.Panel, {
     initComponent: function() {
 
         this.backButton = new Ext.Button({
-            xtype: 'button',
             ui: 'back',
             text: 'back',
+            xtype: 'button',
             hidden: true,
             scope: this,
             handler: this.onBack
@@ -17,8 +17,10 @@ Ext.ux.MainPanel = Ext.extend(Ext.Panel, {
 
         this.dockedItems = [{
             dock: 'top',
+            height: 60,
             xtype: 'toolbar',
-            title: 'DIVE PLANNER'
+            title: '<div class="main-panel-title">COOLBEANS</div>'
+                + '<div class="main-panel-subtitle">RECREATIONAL DIVE PLANNER</div>'
         }, {
             dock: 'bottom',
             xtype: 'toolbar',
@@ -47,12 +49,15 @@ Ext.ux.MainPanel = Ext.extend(Ext.Panel, {
                 form = this.items.getAt(0),
                 panel = this.items.getAt(1);
 
-            console.log("data", record.data);
-
             panel.update(record.data);
-            this.setActiveItem(1, 'flip');
-            this.backButton.show();
-            form.reset();
+            this.setActiveItem(1, {
+                type: 'flip',
+                scope: this,
+                after: function() {
+                    this.backButton.show();
+                    form.reset();
+                }
+            });
         }
     },
 
@@ -64,7 +69,7 @@ Ext.ux.MainPanel = Ext.extend(Ext.Panel, {
     },
 
     onBack: function() {
-        this.backButton.hide();
+        this.backButton.hide('fade');
         this.setActiveItem(0, 'flip');
     }
 
